@@ -1,5 +1,6 @@
 package com.inmost.task.domain;
 
+import com.inmost.task.dto.StatusVacancy;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @Builder
 @Table(name = "vacancy")
 public class VacancyEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true)
@@ -22,25 +24,22 @@ public class VacancyEntity {
 
     @Column(name = "nameCompany")
     private String nameCompany;
+
     @Column(name = "position")
     private String position;
+
     @Column(name = "salaryExpected")
     private Integer salaryExpected;
+
     @Column(name = "linkToVacancy")
     private String linkToVacancy;
+
     @Column(name = "recruitersContacts")
     private String recruitersContacts;
+
     @Column(name = "statusVacancy")
-    private enum statusVacancy{
-        Submitted,
-        GaveTest,
-        WaitingForFeedback,
-        Screening,
-        TechnicalInterview,
-        Offer,
-        Refused,
-        NoResponse
-    }
+    private StatusVacancy statusVacancy;
+
     @Column(name = "lastChange")
     private LocalDate lastChange;
 }

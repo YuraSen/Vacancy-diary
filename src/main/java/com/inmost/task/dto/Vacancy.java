@@ -31,16 +31,7 @@ public class Vacancy {
     @NotEmpty
     private String recruitersContacts;
 
-    private enum statusVacancy{
-        Submitted,
-        GaveTest,
-        WaitingForFeedback,
-        Screening,
-        TechnicalInterview,
-        Offer,
-        Refused,
-        NoResponse
-        }
+    private StatusVacancy statusVacancy;
 
     @NotEmpty
     private LocalDate lastChange;
