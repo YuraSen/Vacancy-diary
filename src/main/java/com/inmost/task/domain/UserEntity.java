@@ -1,7 +1,5 @@
 package com.inmost.task.domain;
 
-import com.inmost.task.dto.User;
-import com.inmost.task.dto.Vacancy;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,6 +34,6 @@ public class UserEntity {
     @Column(name = "description")
     private String description;
     @OneToMany
-    @Column(name = "ListVacancy")
-    private List<Vacancy> vacancyList;
+    @Column(name = "listVacancy")
+    private List<VacancyEntity> vacancyList;
 }
