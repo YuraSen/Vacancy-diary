@@ -1,5 +1,7 @@
 package com.inmost.task.domain;
 
+import com.inmost.task.dto.User;
+import com.inmost.task.dto.Vacancy;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -32,4 +35,7 @@ public class UserEntity {
     private String password;
     @Column(name = "description")
     private String description;
+    @OneToMany
+    @Column(name = "ListVacancy")
+    private List<Vacancy> vacancyList;
 }

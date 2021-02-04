@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -18,7 +19,7 @@ public class User {
 
     private String firstName;
 
-    private String lastname;
+    private String lastName;
 
     private LocalDate birthday;
 
