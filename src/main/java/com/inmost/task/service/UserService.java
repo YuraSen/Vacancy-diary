@@ -19,4 +19,5 @@ public interface UserService {
 
     Page<User> getPageUsers(int currentPage, int pageSize);
 
+    User usersVacancy(String nameVacancy);
 }

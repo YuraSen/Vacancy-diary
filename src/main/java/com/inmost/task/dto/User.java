@@ -32,4 +32,7 @@ public class User {
 
     @NotEmpty
     private String description;
+
+    private List<Vacancy> vacancyList;
+
 }

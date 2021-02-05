@@ -22,6 +22,7 @@ public class UserMapper {
                 .email(userEntity.getEmail())
                 .password(userEntity.getPassword())
                 .description(userEntity.getDescription())
+                .vacancyList(userEntity.getVacancyList())
                 .build();
     }
 
@@ -38,6 +39,7 @@ public class UserMapper {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .description(user.getDescription())
+                .vacancyList(user.getVacancyList())
                 .build();
     }
 }

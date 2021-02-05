@@ -1,5 +1,6 @@
 package com.inmost.task.domain;
 
+import com.inmost.task.dto.Vacancy;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,17 +24,23 @@ public class UserEntity {
 
     @Column(name = "firstName")
     private String firstName;
+
     @Column(name = "lastName")
     private String lastName;
+
     @Column(name = "birthday")
     private LocalDate birthday;
+
     @Column(name = "email")
     private String email;
+
     @Column(name = "password")
     private String password;
+
     @Column(name = "description")
     private String description;
-    @OneToMany
-    @Column(name = "listVacancy")
-    private List<VacancyEntity> vacancyList;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @Column(name = "listVacancy", nullable = false)
+    private List<Vacancy> vacancyList;
 }
