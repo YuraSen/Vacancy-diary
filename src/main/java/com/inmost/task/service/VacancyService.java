@@ -1,5 +1,6 @@
 package com.inmost.task.service;
 
+import com.inmost.task.dto.StatusVacancy;
 import com.inmost.task.dto.Vacancy;
 
 import java.util.List;
@@ -8,12 +9,16 @@ public interface VacancyService {
 
     List<Vacancy> findAll();
 
-    Vacancy editVacancy(Long id);
+    Vacancy editVacancy(Vacancy vacancy);
 
-    Vacancy findByStatus();
+    List<Vacancy> findByStatus(StatusVacancy statusVacancy);
 
-    Vacancy findByNameCompany();
+    List<Vacancy> findByNameCompany(String nameCompany);
 
-    Vacancy sendTheEmail();
+    Vacancy findById(Long id);
+
+    void deleteById(Long id);
+
+    Vacancy save(Vacancy vacancy);
 
 }

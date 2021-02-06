@@ -2,12 +2,12 @@ package com.inmost.task.dto;
 
 
 public enum StatusVacancy {
-    Submitted,
-    GaveTest,
-    WaitingForFeedback,
-    Screening,
-    TechnicalInterview,
-    Offer,
-    Refused,
-    NoResponse
+    SUBMITTED,
+    GAVE_TEST,
+    WAITING_FOR_FEEDBACK,
+    SCREENING,
+    TECHNICAL_INTERVIEW,
+    OFFER,
+    REFUSED,
+    NO_RESPONSE
 }

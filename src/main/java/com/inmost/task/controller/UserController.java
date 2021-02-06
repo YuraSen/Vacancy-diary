@@ -1,21 +1,19 @@
 package com.inmost.task.controller;
 
 import com.inmost.task.dto.User;
+import com.inmost.task.dto.Vacancy;
 import com.inmost.task.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/user/rest")
-public class UserControllerImpl{
-    private static final int PAGE_SIZE = 10;
+@RequestMapping("/user")
+public class UserController {
+    private static final int USER_PAGE_SIZE = 10;
     private final UserService userService;
 
     @GetMapping("/")
@@ -24,7 +22,7 @@ public class UserControllerImpl{
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody User user){
+    public User login(@RequestBody User user) {
         return userService.findUser(user.getEmail(), user.getPassword());
     }
 
@@ -38,18 +36,29 @@ public class UserControllerImpl{
         return userService.registration(user);
     }
 
-    @PostMapping("/editUser/{id}")
-    public User editUser(@PathVariable Long id,@RequestBody User user) {
-        return userService.edit(id, user);
+    @PostMapping("/edit")
+    public User editUser(@RequestBody User user) {
+        return userService.edit(user);
     }
 
-    @PostMapping("/deleteUser/{id}")
+    @PostMapping("/delete/{id}")
     public void delete(@PathVariable Long id) {
         userService.deleteById(id);
     }
 
+    @PostMapping("/getVacancy")
+    public List<Vacancy> getUserVacancy(@RequestBody User user) {
+        return userService.getUserVacancy(user);
+    }
+
+    @GetMapping("/email/{id}")
+    public boolean sendEmail(@PathVariable Long id, String text) {
+        return userService.sendTheEmail(text, id);
+    }
+
     private Page<User> addPagination(Integer current) {
         int currentPage = current == null ? 1 : current;
-        return userService.getPageUsers(currentPage, PAGE_SIZE);
+        return userService.getPageUsers(currentPage, USER_PAGE_SIZE);
     }
+
 }

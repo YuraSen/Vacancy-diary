@@ -1,6 +1,7 @@
 package com.inmost.task.service;
 
 import com.inmost.task.dto.User;
+import com.inmost.task.dto.Vacancy;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -9,7 +10,7 @@ public interface UserService {
 
     User registration(User user);
 
-    User edit(Long id, User user);
+    User edit(User user);
 
     void deleteById(Long id);
 
@@ -19,5 +20,8 @@ public interface UserService {
 
     Page<User> getPageUsers(int currentPage, int pageSize);
 
-    User usersVacancy(String nameVacancy);
+    List<Vacancy> getUserVacancy(User user);
+
+    boolean sendTheEmail(String text, Long id);
+
 }

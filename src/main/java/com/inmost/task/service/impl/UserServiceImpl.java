@@ -1,12 +1,13 @@
 package com.inmost.task.service.impl;
 
 import com.inmost.task.domain.UserEntity;
+import com.inmost.task.dto.StatusVacancy;
 import com.inmost.task.dto.User;
+import com.inmost.task.dto.Vacancy;
 import com.inmost.task.exceprion.*;
 import com.inmost.task.repository.UserRepository;
 import com.inmost.task.service.UserService;
 import com.inmost.task.service.mapper.UserMapper;
-import org.hibernate.usertype.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,12 +27,14 @@ import java.util.stream.Collectors;
 
 public class UserServiceImpl implements UserService {
 
+    public static final String NOT_SEND = "Email was not send";
     private static final String USER_BY_THIS_ID_NOT_EXIST = "User by this id not exist";
     private static final String ID_MUST_BE_POSITIVE = "Id must be positive";
     private static final int THE_SMALLEST_POSSIBLE_ID = 0;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -63,7 +68,7 @@ public class UserServiceImpl implements UserService {
         String encodedPassword = passwordEncoder.encode(password);
         Optional<UserEntity> userEntity = userRepository.findByEmail(login);
         User user = userMapper.userEntityToUser(userEntity
-                .orElseThrow(() -> new UserNotExistRuntimeException("User not found")));
+                .orElseThrow(() -> new EntityNotExistRuntimeException("User not found")));
 
         if (!user.getPassword().equals(encodedPassword)) {
             throw new ActionWithUserRuntimeException("User with this login and password is not exist");
@@ -73,10 +78,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User edit(Long id, User user) {
-        checkUserExist(id);
+    public User edit(User user) {
 
-        user.setId(id);
         return save(user);
     }
 
@@ -93,10 +96,29 @@ public class UserServiceImpl implements UserService {
         checkCorrectIdUser(id);
         UserEntity userEntity = userRepository
                 .findById(id)
-                .orElseThrow(() -> new UserNotExistRuntimeException(USER_BY_THIS_ID_NOT_EXIST));
+                .orElseThrow(() -> new EntityNotExistRuntimeException(USER_BY_THIS_ID_NOT_EXIST));
         return userMapper.userEntityToUser(userEntity);
     }
 
+
+    @Override
+    public List<Vacancy> getUserVacancy(User user) {
+        user = findById(user.getId());
+        return new ArrayList<>(user.getVacancyList());
+    }
+
+    @Override
+    public boolean sendTheEmail(String text, Long id) {
+        User user = findById(id);
+        LocalDate now = LocalDate.now();
+        List<String> recruitersContacts = user.getVacancyList().stream()
+                .filter(vacancy -> StatusVacancy.WAITING_FOR_FEEDBACK.equals(vacancy.getStatusVacancy()))
+                .filter(vacancy -> isTimeOut(vacancy, now))
+                .map(Vacancy::getRecruitersContacts)
+                .collect(Collectors.toList());
+        return globalSendEmails(recruitersContacts, text);
+
+    }
 
     @Override
     public Page<User> getPageUsers(int currentPage, int pageSize) {
@@ -109,11 +131,6 @@ public class UserServiceImpl implements UserService {
         return new PageImpl<>(result, sortedByFirstName, countUsers());
     }
 
-    @Override
-    public User usersVacancy(String nameVacancy) {
-        return null;
-    }
-
     private User save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         UserEntity userEntity = userMapper.userToUserEntity(user);
@@ -123,13 +140,13 @@ public class UserServiceImpl implements UserService {
 
     private void checkUserExist(Long id) {
         if (userNotExistsById(id)) {
-            throw new UserNotExistRuntimeException();
+            throw new EntityNotExistRuntimeException();
         }
     }
 
     private void checkCorrectIdUser(Long id) {
         if (id < THE_SMALLEST_POSSIBLE_ID) {
-            throw new UserIdNegativeRuntimeException(ID_MUST_BE_POSITIVE);
+            throw new EntityIdNegativeRuntimeException(ID_MUST_BE_POSITIVE);
         }
     }
 
@@ -141,5 +158,24 @@ public class UserServiceImpl implements UserService {
 
     private long countUsers() {
         return userRepository.count();
+    }
+
+    private boolean isTimeOut(Vacancy vacancy, LocalDate now) {
+        LocalDate compareData = now.minusDays(7);
+        return compareData.isAfter(vacancy.getLastChange());
+    }
+
+    private boolean globalSendEmails(List<String> emails, String text) {
+        try {
+            emails.forEach(email -> sendEmail(email, text));
+        } catch (Exception exception) {
+            throw new EmailsUnSendRuntimeException(NOT_SEND, exception);
+        }
+        return true;
+    }
+
+    //TODO realized send email
+    private void sendEmail(String email, String text) {
+
     }
 }
