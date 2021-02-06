@@ -11,6 +11,7 @@ import com.inmost.task.service.mapper.VacancyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -81,6 +82,7 @@ public class VacancyServiceImpl implements VacancyService {
     public Vacancy save(Vacancy vacancy) {
         VacancyEntity vacancyEntity = vacancyMapper.vacancyToVacancyEntity(vacancy);
         vacancyEntity = vacancyRepository.save(vacancyEntity);
+        vacancy.setLastChange(LocalDate.now());
         return vacancyMapper.vacancyEntityToVacancy(vacancyEntity);
     }
 

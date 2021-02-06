@@ -1,5 +1,6 @@
 package com.inmost.task.controller;
 
+import com.inmost.task.dto.StatusVacancy;
 import com.inmost.task.dto.User;
 import com.inmost.task.dto.Vacancy;
 import com.inmost.task.service.UserService;
@@ -54,6 +55,11 @@ public class UserController {
     @GetMapping("/email/{id}")
     public boolean sendEmail(@PathVariable Long id, String text) {
         return userService.sendTheEmail(text, id);
+    }
+
+    @PostMapping("/statusVacancy/{idUser}/{idVacancy}")
+    public User changeStatus(@PathVariable Long idUser, @PathVariable Long idVacancy, @RequestBody StatusVacancy statusVacancy){
+        return userService.changeStatus(idVacancy, idUser, statusVacancy);
     }
 
     private Page<User> addPagination(Integer current) {

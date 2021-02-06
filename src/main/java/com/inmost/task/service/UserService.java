@@ -1,5 +1,6 @@
 package com.inmost.task.service;
 
+import com.inmost.task.dto.StatusVacancy;
 import com.inmost.task.dto.User;
 import com.inmost.task.dto.Vacancy;
 import org.springframework.data.domain.Page;
@@ -23,5 +24,7 @@ public interface UserService {
     List<Vacancy> getUserVacancy(User user);
 
     boolean sendTheEmail(String text, Long id);
+
+    User changeStatus(Long idVacancy, Long idUser, StatusVacancy statusVacancy);
 
 }
