@@ -1,0 +1,16 @@
+package com.inmost.task.exceprion;
+
+public class UserNotExistRuntimeException extends RuntimeException {
+    public UserNotExistRuntimeException() {
+
+    }
+
+    public UserNotExistRuntimeException(String message) {
+        super(message);
+    }
+
+    public UserNotExistRuntimeException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+}

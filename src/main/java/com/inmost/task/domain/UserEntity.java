@@ -40,7 +40,7 @@ public class UserEntity {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @Column(name = "listVacancy", nullable = false)
-    private List<Vacancy> vacancyList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vacancy")
+    private List<VacancyEntity> vacancyEntityList;
+
 }

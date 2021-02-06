@@ -23,7 +23,6 @@ public class Vacancy {
     @NotEmpty
     private String position;
 
-    @NotEmpty
     private Integer salaryExpected;
 
     @NotEmpty
@@ -32,6 +31,7 @@ public class Vacancy {
     @NotEmpty
     private String recruitersContacts;
 
+    @NotEmpty
     private StatusVacancy statusVacancy;
 
     @NotEmpty

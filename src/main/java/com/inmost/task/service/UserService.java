@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface UserService {
 
-    User edit(Long id, User user);
+    User registration(User user);
 
-    User save(User user);
+    User edit(Long id, User user);
 
     void deleteById(Long id);
 
     User findById(Long id);
 
-    List<User> findAll();
+    User findUser(String login, String password);
 
     Page<User> getPageUsers(int currentPage, int pageSize);
 

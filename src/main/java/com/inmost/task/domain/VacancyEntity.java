@@ -1,6 +1,7 @@
 package com.inmost.task.domain;
 
 import com.inmost.task.dto.StatusVacancy;
+import com.inmost.task.dto.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -42,4 +44,8 @@ public class VacancyEntity {
 
     @Column(name = "lastChange")
     private LocalDate lastChange;
+
+    @JoinColumn(name = "id_user", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private UserEntity userEntity;
 }
