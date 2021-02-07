@@ -1,0 +1,2 @@
+INSERT INTO userr VALUES (1, '16-3-1999', 'GoodBoy', 'senin.yura99@gmail.com', 'Yurii', 'Sienin', 030268);
+INSERT INTO vacancy VALUES (1, '07-1-2021', 'google.com', 'MYH', 'middle', 'vasil@gmail.com', 500, 'SCREENING', 1);

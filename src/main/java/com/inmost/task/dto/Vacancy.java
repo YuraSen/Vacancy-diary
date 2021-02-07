@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.List;

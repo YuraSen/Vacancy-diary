@@ -6,7 +6,6 @@ import com.inmost.task.dto.User;
 import com.inmost.task.dto.Vacancy;
 import com.inmost.task.exceprion.*;
 import com.inmost.task.repository.UserRepository;
-import com.inmost.task.repository.VacancyRepository;
 import com.inmost.task.service.UserService;
 import com.inmost.task.service.VacancyService;
 import com.inmost.task.service.mapper.UserMapper;
@@ -33,7 +32,7 @@ public class UserServiceImpl implements UserService {
     private static final String USER_BY_THIS_ID_NOT_EXIST = "User by this id not exist";
     private static final String ID_MUST_BE_POSITIVE = "Id must be positive";
     private static final int THE_SMALLEST_POSSIBLE_ID = 0;
-    public static final String STATUS_ARE_UNAVALIABLE = "Change status are unavaliable";
+    public static final String STATUS_ARE_UNAVAILABLE = "Change status are unavailable";
     private final UserRepository userRepository;
     private final VacancyService vacancyService;
     private final UserMapper userMapper;
@@ -131,7 +130,7 @@ public class UserServiceImpl implements UserService {
         Vacancy vacancyStatusChange = user.getVacancyList().stream()
                 .filter(vacancy -> Objects.equals(idVacancy, vacancy.getId()))
                 .findFirst()
-                .orElseThrow(() -> new EntityNotExistRuntimeException(STATUS_ARE_UNAVALIABLE));
+                .orElseThrow(() -> new EntityNotExistRuntimeException(STATUS_ARE_UNAVAILABLE));
         vacancyStatusChange.setStatusVacancy(statusVacancy);
         vacancyStatusChange.setLastChange(LocalDate.now());
         vacancyService.save(vacancyStatusChange);

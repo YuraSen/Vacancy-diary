@@ -39,6 +39,7 @@ public class VacancyEntity {
     @Column(name = "recruitersContacts")
     private String recruitersContacts;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "statusVacancy")
     private StatusVacancy statusVacancy;
 
